@@ -17,9 +17,19 @@ export interface EvaluationPoint {
     isLatent: boolean;  // true = most recent evaluation
 }
 
+export type ConfidenceLabel = 'High' | 'Medium' | 'Low';
+
+export interface ConfidenceInfo {
+    label: ConfidenceLabel;
+    variance: number;
+    reason: string;
+    recommendationType: 'Reliable' | 'Uncertain but informative';
+}
+
 export interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
+    confidence?: ConfidenceInfo;
 }
 
 export const PARAM_LABELS: Record<keyof Parameters, string> = {

@@ -1,14 +1,52 @@
-import type { Parameters } from '../types';
+import type { Parameters, ConfidenceLabel, ConfidenceInfo } from '../types';
 
 interface AISuggestionResult {
     message: string;
     suggestedParams: Parameters;
+    confidence: ConfidenceInfo;
+}
+
+// ── Confidence computation from pseudo-GP predictive variance ──
+
+const PARAM_KEYS = ['opacity', 'distance', 'iconSize', 'boxSize', 'textSize'] as const;
+const MAX_DIST = Math.sqrt(PARAM_KEYS.length); // max Euclidean distance in unit hypercube
+
+function euclideanDist(a: Parameters, b: Parameters): number {
+    return Math.sqrt(PARAM_KEYS.reduce((sum, k) => sum + (a[k] - b[k]) ** 2, 0));
+}
+
+function computeConfidence(candidate: Parameters, history: Parameters[]): ConfidenceInfo {
+    let variance: number;
+    if (history.length === 0) {
+        variance = 0.8; // no evaluated points → maximum uncertainty
+    } else {
+        const minDist = Math.min(...history.map((h) => euclideanDist(candidate, h)));
+        variance = (minDist / MAX_DIST) ** 2;
+    }
+
+    // Thresholds simulate quantile-based classification (q33 / q66)
+    let label: ConfidenceLabel;
+    if (variance < 0.10) label = 'High';
+    else if (variance < 0.25) label = 'Medium';
+    else label = 'Low';
+
+    const reason =
+        label === 'High'
+            ? 'This candidate is close to previously evaluated designs, so the predicted performance is relatively reliable.'
+            : label === 'Medium'
+                ? 'This candidate is moderately near explored regions; the prediction carries some uncertainty.'
+                : 'This candidate lies in a less explored region, so the predicted performance is more uncertain.';
+
+    const recommendationType = label === 'Low' ? 'Uncertain but informative' : 'Reliable';
+
+    return { label, variance, reason, recommendationType };
 }
 
 // Simple keyword-based AI response for the mock
 export async function getAISuggestion(
     userMessage: string,
     currentParams: Parameters,
+    evaluationHistory: Parameters[] = [],
 ): Promise<AISuggestionResult> {
     await new Promise((r) => setTimeout(r, 1400)); // simulate latency
 
@@ -68,5 +106,7 @@ export async function getAISuggestion(
         `I've ${changes.join(', ')} based on your request. ` +
         `The sliders have been updated — feel free to fine-tune and then run an evaluation.`;
 
-    return { message, suggestedParams: p };
+    const confidence = computeConfidence(p, evaluationHistory);
+
+    return { message, suggestedParams: p, confidence };
 }

@@ -81,7 +81,7 @@ const App: React.FC = () => {
             Set Parameters
           </div>
           <div className="panel-content panel-content--padded">
-            <SetParameters params={params} onParamsChange={setParams} />
+            <SetParameters params={params} onParamsChange={setParams} evaluationHistory={history} />
           </div>
         </div>
 

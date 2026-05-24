@@ -86,19 +86,6 @@ const Evaluate: React.FC<Props> = ({ isEvaluating, evaluatingType, onEvaluate })
                 </div>
             )}
 
-            <div className="ev-legend">
-                <h3 className="ev-legend-title">Objective</h3>
-                <p className="ev-legend-text">
-                    Each evaluation measures the two objectives of the current design:
-                </p>
-                <ul className="ev-legend-list">
-                    <li><strong>Speed</strong> — estimated task-completion time</li>
-                    <li><strong>Accuracy</strong> — estimated task-success rate</li>
-                </ul>
-                <p className="ev-legend-formula">
-                    f<sub>j</sub>(x) = c<sub>j</sub> − Σ b<sub>ji</sub>(x<sub>i</sub> − a<sub>ji</sub>)²
-                </p>
-            </div>
         </div>
     );
 };

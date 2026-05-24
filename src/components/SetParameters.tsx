@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { Parameters, ChatMessage } from '../types';
+import type { Parameters, ChatMessage, EvaluationPoint } from '../types';
 import { PARAM_LABELS } from '../types';
 import { getAISuggestion } from '../utils/dummyAI';
 import './SetParameters.css';
@@ -7,9 +7,10 @@ import './SetParameters.css';
 interface Props {
     params: Parameters;
     onParamsChange: (p: Parameters) => void;
+    evaluationHistory: EvaluationPoint[];
 }
 
-const SetParameters: React.FC<Props> = ({ params, onParamsChange }) => {
+const SetParameters: React.FC<Props> = ({ params, onParamsChange, evaluationHistory }) => {
     const [messages, setMessages] = useState<ChatMessage[]>([
         { role: 'assistant', content: "Hello! Describe what you want from the layout and I'll suggest new parameter values." },
     ]);
@@ -35,10 +36,11 @@ const SetParameters: React.FC<Props> = ({ params, onParamsChange }) => {
         setAiLoading(true);
 
         try {
-            const result = await getAISuggestion(trimmed, params);
+            const historyParams = evaluationHistory.map((e) => e.parameters);
+            const result = await getAISuggestion(trimmed, params, historyParams);
             setMessages((prev) => [
                 ...prev,
-                { role: 'assistant', content: result.message },
+                { role: 'assistant', content: result.message, confidence: result.confidence },
             ]);
             onParamsChange(result.suggestedParams);
         } finally {
@@ -93,6 +95,21 @@ const SetParameters: React.FC<Props> = ({ params, onParamsChange }) => {
                         <div key={i} className={`sp-msg sp-msg--${m.role}`}>
                             <span className="sp-msg-role">{m.role === 'user' ? 'You' : 'AI'}</span>
                             <p>{m.content}</p>
+                            {m.confidence && (
+                                <div className={`sp-confidence sp-confidence--${m.confidence.label.toLowerCase()}`}>
+                                    <div className="sp-confidence-header">
+                                        <span className="sp-confidence-dot" />
+                                        <span className="sp-confidence-label">
+                                            Prediction confidence:&nbsp;<strong>{m.confidence.label}</strong>
+                                        </span>
+                                        <span className="sp-confidence-type">{m.confidence.recommendationType}</span>
+                                    </div>
+                                    <div className="sp-confidence-row">
+                                        <span className="sp-confidence-row-label">Uncertainty reason:</span>
+                                        <span className="sp-confidence-reason">{m.confidence.reason}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ))}
                     {aiLoading && (

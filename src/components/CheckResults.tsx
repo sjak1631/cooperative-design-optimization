@@ -19,7 +19,7 @@ const renderDot = (
 ) => {
     const { cx = 0, cy = 0 } = props;
     const color = type === 'formal' ? '#34d399' : '#fbbf24';
-    const size = isLatent ? 9 : 5;
+    const size = 3;
     return (
         <circle
             cx={cx}
@@ -115,7 +115,7 @@ const CheckResults: React.FC<Props> = ({ history }) => {
                         <div className="cr-empty">No evaluations yet.<br />Run an evaluation to see results.</div>
                     ) : (
                         <ResponsiveContainer width="100%" height="100%">
-                            <ScatterChart margin={{ top: 10, right: 10, bottom: 20, left: 10 }}>
+                            <ScatterChart margin={{ top: 10, right: 10, bottom: 40, left: 10 }}>
                                 <CartesianGrid stroke="#1e293b" />
                                 <XAxis
                                     type="number" dataKey="speed"
@@ -134,7 +134,7 @@ const CheckResults: React.FC<Props> = ({ history }) => {
                                 <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#334155' }} />
                                 <Legend
                                     iconSize={8}
-                                    wrapperStyle={{ fontSize: '0.7rem', color: '#64748b' }}
+                                    wrapperStyle={{ fontSize: '0.7rem', color: '#64748b', paddingTop: '16px' }}
                                 />
                                 <Scatter name="Formal · previous" data={formalPrev} shape={makeDot(false, 'formal')} />
                                 <Scatter name="Formal · latent" data={formalLatent} shape={makeDot(true, 'formal')} />

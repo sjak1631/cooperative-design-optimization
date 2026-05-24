@@ -1,9 +1,7 @@
 .cr-root {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    gap: 12px;
-    overflow: hidden;
+    gap: 20px;
 }
 
 .cr-title {
@@ -19,8 +17,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
-    min-height: 0;
 }
 
 .cr-section--params {
@@ -38,8 +34,7 @@
 
 /* Chart wrapper */
 .cr-chart-wrap {
-    flex: 1;
-    min-height: 0;
+    height: 340px;
     position: relative;
 }
 

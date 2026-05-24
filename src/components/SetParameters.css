@@ -18,14 +18,18 @@
 .sp-sliders {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    flex-shrink: 0;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+    user-select: none;
 }
 
 .sp-slider-row {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
 }
 
 .sp-slider-header {
@@ -214,4 +218,116 @@
 .sp-ask-btn:disabled {
     opacity: 0.45;
     cursor: not-allowed;
+}
+
+/* ── Confidence Badge ── */
+.sp-confidence {
+    margin-top: 5px;
+    border-radius: 6px;
+    padding: 7px 9px;
+    border-left: 3px solid;
+}
+
+.sp-confidence--high {
+    background: #0a1f12;
+    border-color: #22c55e;
+}
+
+.sp-confidence--medium {
+    background: #1f1800;
+    border-color: #f59e0b;
+}
+
+.sp-confidence--low {
+    background: #1f0e00;
+    border-color: #f97316;
+}
+
+.sp-confidence-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.sp-confidence-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.sp-confidence--high .sp-confidence-dot {
+    background: #22c55e;
+}
+
+.sp-confidence--medium .sp-confidence-dot {
+    background: #f59e0b;
+}
+
+.sp-confidence--low .sp-confidence-dot {
+    background: #f97316;
+}
+
+.sp-confidence-label {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    flex: 1;
+}
+
+.sp-confidence--high .sp-confidence-label strong {
+    color: #4ade80;
+}
+
+.sp-confidence--medium .sp-confidence-label strong {
+    color: #fbbf24;
+}
+
+.sp-confidence--low .sp-confidence-label strong {
+    color: #fb923c;
+}
+
+.sp-confidence-type {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.sp-confidence--high .sp-confidence-type {
+    background: #14532d;
+    color: #86efac;
+}
+
+.sp-confidence--medium .sp-confidence-type {
+    background: #451a03;
+    color: #fcd34d;
+}
+
+.sp-confidence--low .sp-confidence-type {
+    background: #431407;
+    color: #fdba74;
+}
+
+.sp-confidence-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sp-confidence-row-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sp-confidence-reason {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    line-height: 1.45;
 }
