@@ -38,3 +38,5 @@ nginx.conf
 # Certificates and keys
 certs
 *.pem
+
+nginx.conf
