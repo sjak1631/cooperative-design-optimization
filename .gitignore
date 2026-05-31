@@ -32,5 +32,9 @@ __pycache__
 
 analysis/results
 
+# Configuration (environment-specific)
+nginx.conf
+
+# Certificates and keys
 certs
 *.pem

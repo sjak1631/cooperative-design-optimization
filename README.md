@@ -58,7 +58,12 @@ cd frontend && npm ci && npm run build && cd ..
 cp .env.example .env
 # Edit .env with real SECRET_KEY and OPENAI_API_KEY
 
-# 3. Start services
+# 3. Set up nginx.conf
+cp nginx.conf.example nginx.conf
+# Edit nginx.conf and replace YOUR_DOMAIN with your actual domain
+# sed -i 's/YOUR_DOMAIN/sjak1631.dev/g' nginx.conf
+
+# 4. Start services
 docker compose up -d --build
 ```
 
