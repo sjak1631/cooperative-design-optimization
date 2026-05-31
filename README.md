@@ -48,6 +48,8 @@ curl -X POST http://localhost:8000/api/auth/register \
 
 ## Production Deployment (VPS with Docker)
 
+### Initial Setup
+
 ```bash
 # 1. Build frontend static files
 cd frontend && npm ci && npm run build && cd ..
@@ -63,6 +65,25 @@ docker compose up -d --build
 The nginx service listens on port 80.  
 `/api/*` requests are proxied to the backend container.  
 All other requests serve `frontend/dist/index.html` (SPA).
+
+### After the First Run
+
+After the initial setup, you can start and stop the services easily:
+
+```bash
+# Start all services
+docker compose up -d
+
+# Stop all services
+docker compose down
+
+# View logs
+docker compose logs -f
+
+# View logs for a specific service
+docker compose logs -f backend
+docker compose logs -f frontend
+```
 
 ### TLS / HTTPS
 Uncomment the letsencrypt volume in `docker-compose.yml` and update `nginx.conf`
