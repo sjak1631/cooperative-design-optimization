@@ -1,0 +1,271 @@
+.ev-root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.ev-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #7dd3fc;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+}
+
+.ev-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.ev-card {
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ev-card--informal {
+    background: #2d1f0a;
+    border: 1px solid #92400e55;
+}
+
+.ev-card--formal {
+    background: #0a2d1a;
+    border: 1px solid #065f4655;
+}
+
+.ev-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ev-icon {
+    font-size: 1.2rem;
+}
+
+.ev-card-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+}
+
+.ev-card--informal .ev-card-name {
+    color: #fbbf24;
+}
+
+.ev-card--formal .ev-card-name {
+    color: #34d399;
+}
+
+.ev-card-desc {
+    margin: 0;
+    font-size: 0.76rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* Noise bar */
+.ev-noise-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ev-noise-label {
+    font-size: 0.68rem;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.ev-noise-bar {
+    flex: 1;
+    height: 5px;
+    background: #1e293b;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ev-noise-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.ev-noise-fill--high {
+    background: #f59e0b;
+}
+
+.ev-noise-fill--low {
+    background: #10b981;
+}
+
+.ev-noise-val {
+    font-size: 0.68rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.ev-card--informal .ev-noise-val {
+    color: #f59e0b;
+}
+
+.ev-card--formal .ev-noise-val {
+    color: #10b981;
+}
+
+/* Buttons */
+.ev-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    letter-spacing: 0.02em;
+}
+
+.ev-btn:hover:not(:disabled) {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.ev-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ev-btn--informal {
+    background: #d97706;
+    color: #fff;
+}
+
+.ev-btn--formal {
+    background: #059669;
+    color: #fff;
+}
+
+.ev-btn--cancel-inline {
+    background: #7f1d1d;
+    border: 1px solid #b91c1c;
+    color: #fca5a5;
+}
+
+.ev-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ev-spinner::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Progress bar */
+.ev-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.ev-progress-bar {
+    height: 5px;
+    background: #1e293b;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ev-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    animation: progressAnim 20s linear forwards;
+}
+
+.ev-progress-fill--informal {
+    background: #f59e0b;
+    animation-duration: 3s;
+}
+
+.ev-progress-fill--formal {
+    background: #10b981;
+    animation-duration: 20s;
+}
+
+@keyframes progressAnim {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 95%;
+    }
+}
+
+.ev-progress-label {
+    margin: 0;
+    font-size: 0.72rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Legend */
+.ev-legend {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 12px 14px;
+    flex-shrink: 0;
+}
+
+.ev-legend-title {
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.ev-legend-text {
+    margin: 0 0 6px;
+    font-size: 0.73rem;
+    color: #64748b;
+}
+
+.ev-legend-list {
+    margin: 0 0 8px;
+    padding-left: 16px;
+    font-size: 0.73rem;
+    color: #94a3b8;
+    line-height: 1.7;
+}
+
+.ev-legend-formula {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 0.78rem;
+    color: #60a5fa;
+    text-align: center;
+    padding: 6px;
+    background: #0a1628;
+    border-radius: 5px;
+}

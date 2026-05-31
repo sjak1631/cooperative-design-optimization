@@ -1,0 +1,296 @@
+.ss-root {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+    padding: 24px;
+}
+
+.ss-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #1e293b;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ss-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ss-logo {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #7dd3fc;
+    letter-spacing: 0.04em;
+}
+
+.ss-title {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.ss-sub {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.ss-error {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #f87171;
+    background: #450a0a20;
+    border: 1px solid #7f1d1d40;
+    border-radius: 6px;
+    padding: 8px 10px;
+}
+
+.ss-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ss-task-btn {
+    background: #0f172a;
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ss-task-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ss-task-btn--no_badge {
+    border: 1px solid #1d4ed8;
+}
+
+.ss-task-btn--badge {
+    border: 1px solid #7c3aed;
+}
+
+.ss-task-btn--no_badge:hover:not(:disabled) {
+    background: #1e3a5f;
+    border-color: #3b82f6;
+}
+
+.ss-task-btn--badge:hover:not(:disabled) {
+    background: #2e1065;
+    border-color: #a855f7;
+}
+
+.ss-task-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.ss-task-condition {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.ss-task-btn--no_badge .ss-task-condition {
+    color: #60a5fa;
+}
+
+.ss-task-btn--badge .ss-task-condition {
+    color: #c084fc;
+}
+
+.ss-task-desc {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* ── Single assigned task card (non-admin) ── */
+.ss-task-card {
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ss-task-card--no_badge {
+    background: #0f1f36;
+    border: 1px solid #1d4ed8;
+}
+
+.ss-task-card--badge {
+    background: #1a0a2e;
+    border: 1px solid #7c3aed;
+}
+
+.ss-task-card--no_badge .ss-task-condition {
+    color: #60a5fa;
+}
+
+.ss-task-card--badge .ss-task-condition {
+    color: #c084fc;
+}
+
+.ss-start-btn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ss-start-btn:hover:not(:disabled) {
+    background: #2563eb;
+}
+
+.ss-start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ss-back-btn {
+    background: transparent;
+    border: 1px solid #334155;
+    color: #64748b;
+    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    align-self: center;
+}
+
+.ss-back-btn:hover {
+    border-color: #7dd3fc;
+    color: #7dd3fc;
+}
+
+/* ── Admin condition picker ── */
+.ss-admin-condition {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #0a1628;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.ss-admin-condition-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ss-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #e2e8f0;
+    cursor: pointer;
+}
+
+.ss-radio-label input[type="radio"] {
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+/* ── Condition tag inside task card ── */
+.ss-condition-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    align-self: flex-start;
+}
+
+.ss-condition-tag--no_badge {
+    background: #0f1f36;
+    color: #60a5fa;
+    border: 1px solid #1d4ed8;
+}
+
+.ss-condition-tag--badge {
+    background: #1a0a2e;
+    color: #c084fc;
+    border: 1px solid #7c3aed;
+}
+
+.ss-start-btn--badge {
+    background: #7c3aed;
+}
+
+.ss-start-btn--badge:hover:not(:disabled) {
+    background: #6d28d9;
+}
+
+/* ── Tutorial section ── */
+.ss-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ss-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #64748b;
+}
+
+.ss-task-card--tutorial {
+    background: #0d1f1a;
+    border: 1px solid #065f46;
+}
+
+.ss-condition-tag--tutorial {
+    background: #064e3b;
+    color: #34d399;
+    border: 1px solid #065f46;
+}
+
+.ss-start-btn--tutorial {
+    background: #059669;
+}
+
+.ss-start-btn--tutorial:hover:not(:disabled) {
+    background: #047857;
+}
