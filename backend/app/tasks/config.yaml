@@ -1,0 +1,139 @@
+tasks:
+  - id: task_tutorial
+    name: "Tutorial: Simple Web Page"
+    fixed: true
+    timeout_minutes: 10
+    description: >
+      Design a simple personal web page by adjusting two parameters.
+      Your goal is to maximize page load speed and user experience rating.
+      These two objectives can conflict: adding more images and animations
+      enriches the experience but slows down page loading.
+    parameters:
+      - key: imageCount
+        label: Image Count
+        description: Number of images displayed on the page (0 = none, 1 = many)
+        range: [0.0, 1.0]
+      - key: animationLevel
+        label: Animation Level
+        description: Level of CSS animation effects on the page (0 = none, 1 = rich)
+        range: [0.0, 1.0]
+    metrics:
+      - name: speed
+        label: Page Load Speed
+        explanation: How fast the page loads for visitors (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+      - name: accuracy
+        label: User Experience Rating
+        explanation: Overall visual satisfaction rating from users (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+    # Speed optimum: few images, minimal animation
+    # UX optimum: moderate images, moderate animation
+    obj_centers:
+      - [0.15, 0.10]   # speed optimum per param
+      - [0.65, 0.60]   # UX optimum per param
+    obj_weights:
+      - [0.14, 0.16]   # curvature for speed
+      - [0.12, 0.13]   # curvature for UX
+    obj_baselines: [0.88, 0.90]
+    noise_informal: 0.20
+    noise_formal: 0.05
+
+  - id: task_sns
+    name: "Web App 1: Social Network Service"
+    description: >
+      Design the feed and notification settings for a social network service (SNS).
+      Your goal is to maximize daily revenue from ad monetization and
+      user satisfaction rating. These two objectives often conflict:
+      more ads and notifications boost revenue but hurt user experience.
+    parameters:
+      - key: adDensity
+        label: Ad Density
+        description: Density and prominence of advertisements in the feed
+        range: [0.0, 1.0]
+      - key: notificationFrequency
+        label: Notification Frequency
+        description: Frequency of push notifications sent to users
+        range: [0.0, 1.0]
+      - key: personalizationRate
+        label: Personalization Rate
+        description: Degree to which content is personalized to each user
+        range: [0.0, 1.0]
+      - key: moderationRate
+        label: Moderation Rate
+        description: Strictness of automated content moderation
+        range: [0.0, 1.0]
+      - key: refreshTime
+        label: Content Refresh Time
+        description: How frequently the feed content is automatically refreshed (lower = faster)
+        range: [0.0, 1.0]
+    metrics:
+      - name: speed
+        label: Daily Revenue
+        explanation: Estimated daily ad revenue index (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+      - name: accuracy
+        label: User Rating
+        explanation: Estimated user satisfaction rating (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+    # Ground-truth objective parameters
+    # Revenue optimum: high ads, high notifications, high personalization, low moderation, fast refresh
+    # Rating optimum:  low ads, low notifications, high personalization, high moderation, moderate refresh
+    obj_centers:
+      - [0.85, 0.80, 0.75, 0.25, 0.15]   # daily revenue optimum per param
+      - [0.10, 0.15, 0.85, 0.85, 0.60]   # user rating optimum per param
+    obj_weights:
+      - [0.10, 0.09, 0.07, 0.06, 0.08]   # curvature for daily revenue
+      - [0.10, 0.09, 0.07, 0.08, 0.06]   # curvature for user rating
+    obj_baselines: [0.88, 0.90]
+    noise_informal: 0.25
+    noise_formal: 0.05
+
+  - id: task_qa
+    name: "Web App 2: Q&A Message Board"
+    description: >
+      Design the layout and content settings for a Q&A message board.
+      Your goal is to maximize the answering rate of questions and the total
+      number of questions answered. These two objectives can conflict:
+      broader categories and lower activity thresholds attract more answerers
+      but may lower per-question answering quality.
+    parameters:
+      - key: questionCategories
+        label: Question Categories
+        description: Number and breadth of question categories shown on the board
+        range: [0.0, 1.0]
+      - key: refreshTime
+        label: Content Refresh Time
+        description: How frequently the question list is refreshed (lower = faster)
+        range: [0.0, 1.0]
+      - key: previewLength
+        label: Question Preview Length
+        description: Length of the question preview text shown in the list
+        range: [0.0, 1.0]
+      - key: maxTags
+        label: Max Question Tags
+        description: Maximum number of tags displayed per question
+        range: [0.0, 1.0]
+      - key: activityThreshold
+        label: Activity Threshold
+        description: Minimum activity rating required for a user to answer questions
+        range: [0.0, 1.0]
+    metrics:
+      - name: speed
+        label: Answering Rate
+        explanation: Ratio of questions that receive at least one answer (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+      - name: accuracy
+        label: Questions Answered
+        explanation: Total volume of questions answered per day index (higher is better; 0–1 scale)
+        range: [0.0, 1.0]
+    # answeringRate optimum: fewer categories, moderate refresh, moderate preview, fewer tags, high threshold
+    # questionsAnswered optimum: more categories, fast refresh, longer preview, moderate tags, low threshold
+    obj_centers:
+      - [0.30, 0.40, 0.55, 0.25, 0.75]   # answering rate optimum per param
+      - [0.80, 0.20, 0.75, 0.50, 0.25]   # questions answered optimum per param
+    obj_weights:
+      - [0.09, 0.08, 0.07, 0.10, 0.09]   # curvature for answering rate
+      - [0.08, 0.10, 0.09, 0.07, 0.08]   # curvature for questions answered
+    obj_baselines: [0.88, 0.90]
+    noise_informal: 0.25
+    noise_formal: 0.05
