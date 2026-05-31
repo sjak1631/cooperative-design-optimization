@@ -51,11 +51,57 @@ const AppContent: React.FC = () => {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evalType, setEvalType] = useState<EvalType | null>(null);
   const [elapsedSec, setElapsedSec] = useState(0);
+  const [initialized, setInitialized] = useState(false);
 
   const SESSION_TIMEOUT_SEC = 20 * 60; // 20 min
   const FINISH_UNLOCK_SEC = 15 * 60;   // 15 min (regular users)
 
   const sessionSyncRef = useRef<{ elapsed: number; at: number }>({ elapsed: 0, at: Date.now() });
+
+  // ── Session persistence with localStorage ──
+  useEffect(() => {
+    const init = async () => {
+      try {
+        // Try to restore from localStorage
+        const savedMe = localStorage.getItem('auth_user');
+        if (savedMe) {
+          const user = JSON.parse(savedMe) as UserInfo;
+          setMe(user);
+          // Verify token is still valid
+          try {
+            const meData = await getMe();
+            setMe(meData);
+            if (meData.is_admin) {
+              setStage('home');
+            } else {
+              setStage('setup');
+            }
+          } catch {
+            // Token expired or invalid
+            localStorage.removeItem('auth_user');
+            setMe(null);
+            setStage('login');
+          }
+        } else {
+          setStage('login');
+        }
+      } catch {
+        setStage('login');
+      } finally {
+        setInitialized(true);
+      }
+    };
+    init();
+  }, []);
+
+  // ── Save user to localStorage when logged in ──
+  useEffect(() => {
+    if (me) {
+      localStorage.setItem('auth_user', JSON.stringify(me));
+    } else {
+      localStorage.removeItem('auth_user');
+    }
+  }, [me]);
 
   // Count-up timer — forced end at 20 min
   useEffect(() => {
@@ -119,6 +165,16 @@ const AppContent: React.FC = () => {
         setStage('setup');
       }
     }
+  }, []);
+
+  const handleSignOut = useCallback(() => {
+    localStorage.removeItem('auth_user');
+    setMe(null);
+    setSession(null);
+    setTask(null);
+    setHistory([]);
+    setParams({} as Parameters);
+    setStage('login');
   }, []);
 
   const handleSessionStarted = useCallback((s: SessionInfo, t: TaskInfo) => {
@@ -191,6 +247,41 @@ const AppContent: React.FC = () => {
 
   const isAdmin = me?.is_admin ?? false;
 
+  // ── Show loading during initialization ──
+  if (!initialized) {
+    return (
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        backgroundColor: '#f8fafc',
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '16px',
+        }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            border: '3px solid #e2e8f0',
+            borderTop: '3px solid #3b82f6',
+            animation: 'spin 1s linear infinite',
+          }} />
+          <p style={{ color: '#64748b', fontSize: '14px' }}>Loading...</p>
+        </div>
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   // ── Login ──
   if (stage === 'login') {
     return <Login onLogin={handleLogin} />;
@@ -214,6 +305,13 @@ const AppContent: React.FC = () => {
           >
             {t('app.startTestSession')}
           </button>
+          <button
+            className="done-btn"
+            style={{ background: '#dc2626', marginTop: 4, color: '#ffffff' }}
+            onClick={handleSignOut}
+          >
+            {t('app.signOut')}
+          </button>
         </div>
       </div>
     );
@@ -231,6 +329,7 @@ const AppContent: React.FC = () => {
         isAdmin={isAdmin}
         onSessionStarted={handleSessionStarted}
         onGoAdmin={isAdmin ? () => setStage('home') : undefined}
+        onSignOut={handleSignOut}
       />
     );
   }
@@ -271,7 +370,8 @@ const AppContent: React.FC = () => {
   const sessionLabel = task
     ? `${task.name}${session?.condition === 'badge' ? ' · ' + t('app.badgesOn') : ''}`
     : '';
-  const finishUnlocked = isAdmin || elapsedSec >= FINISH_UNLOCK_SEC;
+  const isTutorial = task?.id?.startsWith('task_tutorial');
+  const finishUnlocked = isAdmin || isTutorial || elapsedSec >= FINISH_UNLOCK_SEC;
 
   return (
     <div className="app-root">

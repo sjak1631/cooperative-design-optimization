@@ -18,7 +18,8 @@
         "availableAfterMinutes": "15分後に利用可能",
         "minRemaining": "分残り",
         "finishSession": "セッションを終了",
-        "finishButton": "完了"
+        "finishButton": "終了",
+        "signOut": "ログアウト"
     },
     "panels": {
         "webpagePreview": "ウェブページプレビュー",

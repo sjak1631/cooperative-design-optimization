@@ -18,7 +18,8 @@
         "availableAfterMinutes": "Available after 15 minutes",
         "minRemaining": "min remaining",
         "finishSession": "Finish session",
-        "finishButton": "Finish"
+        "finishButton": "Finish",
+        "signOut": "Sign Out"
     },
     "panels": {
         "webpagePreview": "Webpage Preview",

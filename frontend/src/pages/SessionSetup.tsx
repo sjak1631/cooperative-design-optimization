@@ -8,9 +8,10 @@ interface Props {
     isAdmin: boolean;
     onSessionStarted: (session: SessionInfo, task: TaskInfo) => void;
     onGoAdmin?: () => void;
+    onSignOut?: () => void;
 }
 
-const SessionSetup: React.FC<Props> = ({ isAdmin, onSessionStarted, onGoAdmin }) => {
+const SessionSetup: React.FC<Props> = ({ isAdmin, onSessionStarted, onGoAdmin, onSignOut }) => {
     const { t } = useI18n();
     const [me, setMe] = useState<UserInfo | null>(null);
     const [taskMap, setTaskMap] = useState<Record<string, TaskInfo>>({});
@@ -147,6 +148,15 @@ const SessionSetup: React.FC<Props> = ({ isAdmin, onSessionStarted, onGoAdmin })
                             </div>
                         </div>
                     )}
+                    {onSignOut && (
+                        <button
+                            className="ss-back-btn"
+                            onClick={onSignOut}
+                            style={{ background: '#dc2626', marginTop: 8, color: '#ffffff' }}
+                        >
+                            {t('app.signOut')}
+                        </button>
+                    )}
                 </div>
             </div>
         );
@@ -199,6 +209,15 @@ const SessionSetup: React.FC<Props> = ({ isAdmin, onSessionStarted, onGoAdmin })
                 {onGoAdmin && (
                     <button className="ss-back-btn" onClick={onGoAdmin}>
                         {t('sessionSetup.backToAdminHome')}
+                    </button>
+                )}
+                {onSignOut && (
+                    <button
+                        className="ss-back-btn"
+                        onClick={onSignOut}
+                        style={{ background: '#dc2626', marginTop: 8, color: '#ffffff' }}
+                    >
+                        {t('app.signOut')}
                     </button>
                 )}
             </div>
