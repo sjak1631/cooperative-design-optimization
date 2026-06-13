@@ -112,3 +112,52 @@ class BOState(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
 
     session: Mapped["StudySession"] = relationship(back_populates="bo_state")
+
+
+# ── NASATLXResponse ──────────────────────────────────────────────────────────
+class NASATLXResponse(Base):
+    __tablename__ = "nasa_tlx_responses"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    session_id: Mapped[int] = mapped_column(ForeignKey("study_sessions.id"), unique=True, nullable=False)
+    # Raw ratings (0-100)
+    mental_demand: Mapped[int] = mapped_column(Integer, nullable=False)
+    physical_demand: Mapped[int] = mapped_column(Integer, nullable=False)
+    temporal_demand: Mapped[int] = mapped_column(Integer, nullable=False)
+    performance: Mapped[int] = mapped_column(Integer, nullable=False)
+    effort: Mapped[int] = mapped_column(Integer, nullable=False)
+    frustration: Mapped[int] = mapped_column(Integer, nullable=False)
+    # Pairwise comparison choices (list of 15 dicts: {pair: [dim_a, dim_b], chosen: dim})
+    pairwise_choices: Mapped[list[Any]] = mapped_column(JSON, nullable=False)
+    # Weight counts per dimension (how many times each was chosen out of 15)
+    weights: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
+    # Final weighted TLX score
+    weighted_tlx: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    session: Mapped["StudySession"] = relationship()
+
+
+# ── MTQResponse ───────────────────────────────────────────────────────────────
+class MTQResponse(Base):
+    __tablename__ = "mtq_responses"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    session_id: Mapped[int] = mapped_column(ForeignKey("study_sessions.id"), unique=True, nullable=False)
+    # Raw Likert responses (1–4 scale)
+    purpose_q1: Mapped[int] = mapped_column(Integer, nullable=False)
+    purpose_q2: Mapped[int] = mapped_column(Integer, nullable=False)
+    purpose_q3: Mapped[int] = mapped_column(Integer, nullable=False)
+    transparency_q1: Mapped[int] = mapped_column(Integer, nullable=False)
+    transparency_q2: Mapped[int] = mapped_column(Integer, nullable=False)
+    transparency_q3: Mapped[int] = mapped_column(Integer, nullable=False)
+    utility_q1: Mapped[int] = mapped_column(Integer, nullable=False)  # stored as raw; reversed in scoring
+    utility_q2: Mapped[int] = mapped_column(Integer, nullable=False)
+    utility_q3: Mapped[int] = mapped_column(Integer, nullable=False)
+    # Computed dimension scores (mean of 3 items; utility_q1 reversed as 5 - q1)
+    purpose_score: Mapped[float] = mapped_column(Float, nullable=False)
+    transparency_score: Mapped[float] = mapped_column(Float, nullable=False)
+    utility_score: Mapped[float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    session: Mapped["StudySession"] = relationship()

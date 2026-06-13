@@ -9,7 +9,7 @@ from sqlalchemy import select
 from app.core.config import get_settings
 from app.db.database import AsyncSessionLocal, init_db
 from app.db.models import EndReason, StudySession
-from app.api.routes import auth, session, evaluate, bo, tasks, admin
+from app.api.routes import auth, session, evaluate, bo, tasks, admin, nasa_tlx, mtq
 
 settings = get_settings()
 
@@ -35,6 +35,8 @@ app.include_router(evaluate.router, prefix="/api")
 app.include_router(bo.router,       prefix="/api")
 app.include_router(tasks.router,    prefix="/api")
 app.include_router(admin.router,    prefix="/api")
+app.include_router(nasa_tlx.router, prefix="/api")
+app.include_router(mtq.router,      prefix="/api")
 
 
 @app.on_event("startup")
