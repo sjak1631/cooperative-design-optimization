@@ -129,8 +129,8 @@ tasks:
     # answeringRate optimum: fewer categories, moderate refresh, moderate preview, fewer tags, high threshold
     # questionsAnswered optimum: more categories, fast refresh, longer preview, moderate tags, low threshold
     obj_centers:
-      - [0.30, 0.40, 0.55, 0.25, 0.75]   # answering rate optimum per param
-      - [0.80, 0.20, 0.75, 0.50, 0.25]   # questions answered optimum per param
+      - [0.2, 0.2, 0.8, 0.3, 0.75]   # answering rate optimum per param
+      - [0.9, 0.8, 0.3, 0.7, 0.25]   # questions answered optimum per param
     obj_weights:
       - [0.09, 0.08, 0.07, 0.10, 0.09]   # curvature for answering rate
       - [0.08, 0.10, 0.09, 0.07, 0.08]   # curvature for questions answered
