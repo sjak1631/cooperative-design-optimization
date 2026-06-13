@@ -11,6 +11,7 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     participant_id: str
     is_admin: bool = False
+    is_guest: bool = False
 
 
 class RegisterRequest(BaseModel):

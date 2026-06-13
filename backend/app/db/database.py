@@ -29,6 +29,7 @@ async def init_db() -> None:
             "ALTER TABLE participants ADD COLUMN assigned_condition VARCHAR(16)",
             "ALTER TABLE participants ADD COLUMN task_no_badge VARCHAR(64)",
             "ALTER TABLE participants ADD COLUMN task_badge VARCHAR(64)",
+            "ALTER TABLE participants ADD COLUMN is_guest BOOLEAN NOT NULL DEFAULT 0",
         ]:
             try:
                 await conn.execute(text(stmt))

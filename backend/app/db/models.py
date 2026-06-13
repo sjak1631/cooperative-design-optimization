@@ -40,6 +40,7 @@ class Participant(Base):
     participant_id: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(256), nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False, server_default="0")
+    is_guest: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False, server_default="0")
     task_no_badge: Mapped[str | None] = mapped_column(String(64), nullable=True)  # web app assigned to no_badge condition
     task_badge: Mapped[str | None] = mapped_column(String(64), nullable=True)     # web app assigned to badge condition
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

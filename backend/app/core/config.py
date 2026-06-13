@@ -38,6 +38,10 @@ class Settings(BaseSettings):
     # Task config
     TASKS_CONFIG_PATH: str = "app/tasks/config.yaml"
 
+    # Guest login
+    GUEST_LOGIN_ENABLED: bool = False
+    GUEST_TASK_ID: str = "task_sns"  # Task assigned to guest users
+
 
 @lru_cache
 def get_settings() -> Settings:

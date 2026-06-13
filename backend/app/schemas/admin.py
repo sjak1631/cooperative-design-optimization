@@ -8,6 +8,7 @@ class UserInfo(BaseModel):
     id: int
     participant_id: str
     is_admin: bool
+    is_guest: bool = False
     task_no_badge: Optional[str] = None   # web app id assigned to no_badge condition
     task_badge: Optional[str] = None      # web app id assigned to badge condition
     created_at: datetime

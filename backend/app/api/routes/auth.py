@@ -1,4 +1,7 @@
-"""Auth endpoints: register (admin-only), login, and me."""
+"""Auth endpoints: register (admin-only), login, guest login, and me."""
+import secrets
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -57,6 +60,46 @@ async def login(req: LoginRequest, db: AsyncSession = Depends(get_db)) -> TokenR
     )
 
 
+@router.post("/guest", response_model=TokenResponse)
+async def guest_login(db: AsyncSession = Depends(get_db)) -> TokenResponse:
+    """Create a throwaway guest participant and return a JWT.
+
+    Each call creates a new unique guest account so simultaneous guests
+    never share a session.  Guest login must be enabled via
+    GUEST_LOGIN_ENABLED=true in the environment.
+    """
+    if not settings.GUEST_LOGIN_ENABLED:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Guest login is not enabled",
+        )
+
+    # Unique guest ID — short UUID hex suffix prevents collisions
+    guest_id = f"guest_{uuid.uuid4().hex[:12]}"
+
+    # Unmatchable random password (guest account can never be password-logged-in)
+    dummy_pw = secrets.token_hex(32)
+
+    participant = Participant(
+        participant_id=guest_id,
+        password_hash=hash_password(dummy_pw),
+        is_admin=False,
+        is_guest=True,
+        task_badge=settings.GUEST_TASK_ID,
+    )
+    db.add(participant)
+    await db.commit()
+    await db.refresh(participant)
+
+    token = create_access_token(subject=guest_id)
+    return TokenResponse(
+        access_token=token,
+        participant_id=guest_id,
+        is_admin=False,
+        is_guest=True,
+    )
+
+
 @router.get("/me", response_model=UserInfo)
 async def get_me(
     participant: Participant = Depends(get_current_participant),
@@ -66,6 +109,7 @@ async def get_me(
         id=participant.id,
         participant_id=participant.participant_id,
         is_admin=participant.is_admin,
+        is_guest=participant.is_guest,
         task_no_badge=participant.task_no_badge,
         task_badge=participant.task_badge,
         created_at=participant.created_at,
