@@ -1,5 +1,20 @@
 # Cooperative Bayesian Optimization — UI Design Study
 
+## About
+
+This repository is a reproduction and extension of the following paper:
+
+> **Cooperative Design Optimization through Natural Language Interaction**  
+> Ryogo Niwa, Shigeo Yoshida, Yuki Koyama, Yoshitaka Ushiku  
+> arXiv:2508.16077 · DOI:[10.1145/3746059.3747789](https://doi.org/10.1145/3746059.3747789)  
+> https://arxiv.org/abs/2508.16077
+
+The original paper proposes a cooperative design optimization framework that integrates Bayesian Optimization (BO) with Large Language Models (LLMs), enabling designers to intervene in the optimization process via natural language.
+
+**This project reproduces the above framework and additionally implements an *uncertainty badge* — a UI element that visualizes the BO model's predictive uncertainty — to study its effect on user experience and optimization performance through a within-subjects user study.**
+
+---
+
 An online user study platform where participants co-optimize UI layout parameters with a Bayesian Optimization (BO) agent powered by an LLM.
 
 ## Architecture
