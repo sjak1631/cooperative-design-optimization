@@ -1,0 +1,282 @@
+.tlx-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: #0f172a;
+    padding: 32px 16px 48px;
+    overflow-y: auto;
+}
+
+.tlx-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin: auto;
+}
+
+.tlx-card--center {
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+/* ── Header ─────────────────────────────────────── */
+.tlx-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tlx-step-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #3b82f6;
+    background: #1e3a5f;
+    border: 1px solid #1d4ed8;
+    border-radius: 20px;
+    padding: 3px 10px;
+    align-self: flex-start;
+}
+
+.tlx-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0;
+}
+
+.tlx-subtitle {
+    font-size: 0.84rem;
+    color: #94a3b8;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ── Sliders ─────────────────────────────────────── */
+.tlx-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.tlx-slider-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+}
+
+.tlx-dim-header {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.tlx-dim-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.tlx-dim-en {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.tlx-dim-value {
+    margin-left: auto;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #7dd3fc;
+    font-variant-numeric: tabular-nums;
+    min-width: 32px;
+    text-align: right;
+}
+
+.tlx-reversed-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #f59e0b;
+    background: #45180320;
+    border: 1px solid #92400e40;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.tlx-dim-desc {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.tlx-slider-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.tlx-range-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+    min-width: 24px;
+}
+
+.tlx-range-label--right {
+    text-align: right;
+}
+
+.tlx-slider {
+    flex: 1;
+    height: 4px;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+/* ── Progress bar ─────────────────────────────────── */
+.tlx-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #1e293b;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tlx-progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 3px;
+    transition: width 0.2s ease;
+}
+
+/* ── Pairwise ─────────────────────────────────────── */
+.tlx-pair-container {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+}
+
+.tlx-pair-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 20px 18px;
+    background: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    text-align: left;
+}
+
+.tlx-pair-btn:hover {
+    border-color: #3b82f6;
+    background: #1e3a5f;
+    transform: translateY(-2px);
+}
+
+.tlx-pair-btn:active {
+    transform: translateY(0);
+}
+
+.tlx-pair-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.tlx-pair-en {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+.tlx-pair-desc {
+    font-size: 0.76rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+.tlx-pair-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    flex-shrink: 0;
+    padding: 4px;
+}
+
+/* ── Buttons ─────────────────────────────────────── */
+.tlx-btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    align-self: flex-end;
+}
+
+.tlx-btn--primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.tlx-btn--primary:hover {
+    background: #2563eb;
+}
+
+/* ── Error ───────────────────────────────────────── */
+.tlx-error {
+    font-size: 0.8rem;
+    color: #f87171;
+    background: #450a0a20;
+    border: 1px solid #7f1d1d40;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 0;
+}
+
+/* ── Spinner ─────────────────────────────────────── */
+.tlx-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #1e293b;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: tlx-spin 0.8s linear infinite;
+}
+
+@keyframes tlx-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Done ────────────────────────────────────────── */
+.tlx-done-icon {
+    font-size: 3rem;
+}

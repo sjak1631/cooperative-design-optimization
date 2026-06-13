@@ -11,6 +11,8 @@ import WebpagePreview from './components/WebpagePreview';
 import SetParameters from './components/SetParameters';
 import Evaluate from './components/Evaluate';
 import CheckResults from './components/CheckResults';
+import NasaTLX from './components/NasaTLX';
+import MtqSurvey from './components/MtqSurvey';
 import './App.css';
 
 // Convert API history to legacy EvaluationPoint shape used by components
@@ -38,7 +40,7 @@ const EVAL_DELAY_MS: Record<EvalType, number> = {
   informal: 3_000,
 };
 
-type AppStage = 'login' | 'home' | 'admin' | 'setup' | 'study' | 'done';
+type AppStage = 'login' | 'home' | 'admin' | 'setup' | 'study' | 'nasa_tlx' | 'mtq' | 'done';
 
 const AppContent: React.FC = () => {
   const { t } = useI18n();
@@ -120,21 +122,35 @@ const AppContent: React.FC = () => {
         } catch {
           setSession(prev => prev ? { ...prev, is_active: false, end_reason: 'timeout' as SessionInfo['end_reason'] } : prev);
         }
-        setStage('done');
+        // Non-tutorial tasks → NASA-TLX survey first (skipped for guests)
+        if (me?.is_guest) {
+          setSession(null); setTask(null); setHistory([]); setStage('setup');
+        } else if (task && !task.id.startsWith('task_tutorial')) {
+          setStage('nasa_tlx');
+        } else {
+          setStage('done');
+        }
       }
     }, 1000);
     return () => clearInterval(id);
-  }, [session?.is_active, session?.elapsed_seconds]);
+  }, [session?.is_active, session?.elapsed_seconds, task, me]);
 
   const handleFinish = useCallback(async () => {
     try {
       const updated = await endSession();
       setSession(updated);
-      setStage('done');
+      // Non-tutorial tasks → NASA-TLX survey first (skipped for guests)
+      if (me?.is_guest) {
+        setSession(null); setTask(null); setHistory([]); setStage('setup');
+      } else if (task && !task.id.startsWith('task_tutorial')) {
+        setStage('nasa_tlx');
+      } else {
+        setStage('done');
+      }
     } catch (err) {
       console.error('Failed to end session', err);
     }
-  }, []);
+  }, [task, me]);
 
   const handleFinishAndGoHome = useCallback(async () => {
     try {
@@ -230,7 +246,14 @@ const AppContent: React.FC = () => {
           end_reason: result.end_reason as any,
           pareto_front_count: result.pareto_front_count,
         } : prev);
-        setStage('done');
+        // Non-tutorial tasks → NASA-TLX survey first (skipped for guests)
+        if (me?.is_guest) {
+          setSession(null); setTask(null); setHistory([]); setStage('setup');
+        } else if (task && !task.id.startsWith('task_tutorial')) {
+          setStage('nasa_tlx');
+        } else {
+          setStage('done');
+        }
       }
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -243,7 +266,7 @@ const AppContent: React.FC = () => {
       setIsEvaluating(false);
       setEvalType(null);
     }
-  }, [session, isEvaluating, params, refreshHistory]);
+  }, [session, isEvaluating, params, refreshHistory, task, me]);
 
   const isAdmin = me?.is_admin ?? false;
 
@@ -320,6 +343,26 @@ const AppContent: React.FC = () => {
   // ── Admin panel ──
   if (stage === 'admin') {
     return <AdminPanel onBack={() => setStage('home')} />;
+  }
+
+  // ── NASA-TLX survey ──
+  if (stage === 'nasa_tlx' && session) {
+    return (
+      <NasaTLX
+        sessionId={session.session_id}
+        onComplete={() => setStage('mtq')}
+      />
+    );
+  }
+
+  // ── MTQ survey ──
+  if (stage === 'mtq' && session) {
+    return (
+      <MtqSurvey
+        sessionId={session.session_id}
+        onComplete={() => setStage('done')}
+      />
+    );
   }
 
   // ── Session setup ──

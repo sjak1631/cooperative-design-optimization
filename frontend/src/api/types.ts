@@ -5,6 +5,7 @@ export interface TokenResponse {
     token_type: string;
     participant_id: string;
     is_admin: boolean;
+    is_guest: boolean;
 }
 
 export type Condition = 'badge' | 'no_badge';
@@ -15,6 +16,7 @@ export interface UserInfo {
     id: number;
     participant_id: string;
     is_admin: boolean;
+    is_guest: boolean;
     task_no_badge: string | null;   // web app assigned to no_badge condition
     task_badge: string | null;      // web app assigned to badge condition
     created_at: string;
@@ -111,4 +113,70 @@ export interface TaskInfo {
     is_fixed?: boolean;     // fixed tasks are shown to all users without assignment
     parameters: ParameterInfo[];
     metrics: MetricInfo[];
+}
+
+// ── NASA-TLX ─────────────────────────────────────────────────────────────────
+
+export interface PairwiseChoice {
+    pair: [string, string];
+    chosen: string;
+}
+
+export interface NASATLXRequest {
+    session_id: number;
+    mental_demand: number;
+    physical_demand: number;
+    temporal_demand: number;
+    performance: number;
+    effort: number;
+    frustration: number;
+    pairwise_choices: PairwiseChoice[];
+}
+
+export interface NASATLXResult {
+    id: number;
+    session_id: number;
+    mental_demand: number;
+    physical_demand: number;
+    temporal_demand: number;
+    performance: number;
+    effort: number;
+    frustration: number;
+    pairwise_choices: PairwiseChoice[];
+    weights: Record<string, number>;
+    weighted_tlx: number;
+    created_at: string;
+}
+
+// ── MTQ ───────────────────────────────────────────────────────────────────────
+
+export interface MTQRequest {
+    session_id: number;
+    purpose_q1: number;
+    purpose_q2: number;
+    purpose_q3: number;
+    transparency_q1: number;
+    transparency_q2: number;
+    transparency_q3: number;
+    utility_q1: number;
+    utility_q2: number;
+    utility_q3: number;
+}
+
+export interface MTQResult {
+    id: number;
+    session_id: number;
+    purpose_q1: number;
+    purpose_q2: number;
+    purpose_q3: number;
+    transparency_q1: number;
+    transparency_q2: number;
+    transparency_q3: number;
+    utility_q1: number;
+    utility_q2: number;
+    utility_q3: number;
+    purpose_score: number;
+    transparency_score: number;
+    utility_score: number;
+    created_at: string;
 }

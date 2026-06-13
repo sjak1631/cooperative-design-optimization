@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../api/client';
+import { login, guestLogin } from '../api/client';
 import { useI18n } from '../context/i18nContext';
 import './Login.css';
 
@@ -13,6 +13,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [guestLoading, setGuestLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,6 +29,22 @@ const Login: React.FC<Props> = ({ onLogin }) => {
             setError(msg);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGuestLogin = async () => {
+        setError('');
+        setGuestLoading(true);
+        try {
+            const res = await guestLogin();
+            sessionStorage.setItem('access_token', res.access_token);
+            sessionStorage.setItem('participant_id', res.participant_id);
+            onLogin(res.participant_id);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : 'Guest login failed';
+            setError(msg);
+        } finally {
+            setGuestLoading(false);
         }
     };
 
@@ -67,10 +84,23 @@ const Login: React.FC<Props> = ({ onLogin }) => {
 
                     {error && <p className="login-error">{error}</p>}
 
-                    <button className="login-btn" type="submit" disabled={loading}>
+                    <button className="login-btn" type="submit" disabled={loading || guestLoading}>
                         {loading ? t('login.signingIn') : t('login.signIn')}
                     </button>
                 </form>
+
+                <div className="login-divider">
+                    <span>{t('login.or')}</span>
+                </div>
+
+                <button
+                    className="login-btn login-btn--guest"
+                    type="button"
+                    onClick={handleGuestLogin}
+                    disabled={loading || guestLoading}
+                >
+                    {guestLoading ? t('login.signingIn') : t('login.guestSignIn')}
+                </button>
             </div>
         </div>
     );

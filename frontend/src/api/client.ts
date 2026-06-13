@@ -4,6 +4,10 @@ import type {
     EvaluationHistoryItem,
     EvaluationResult,
     LLMSelectResponse,
+    MTQRequest,
+    MTQResult,
+    NASATLXRequest,
+    NASATLXResult,
     SessionInfo,
     TaskInfo,
     TokenResponse,
@@ -51,6 +55,10 @@ export async function login(participantId: string, password: string): Promise<To
         method: 'POST',
         body: JSON.stringify({ participant_id: participantId, password }),
     });
+}
+
+export async function guestLogin(): Promise<TokenResponse> {
+    return request<TokenResponse>('/auth/guest', { method: 'POST' });
 }
 
 // ── Tasks ────────────────────────────────────────────────────────────────────
@@ -127,6 +135,24 @@ export { ApiError };
 
 export async function getMe(): Promise<UserInfo> {
     return request<UserInfo>('/auth/me');
+}
+
+// ── NASA-TLX ─────────────────────────────────────────────────────────────────
+
+export async function submitNasaTlx(data: NASATLXRequest): Promise<NASATLXResult> {
+    return request<NASATLXResult>('/nasa-tlx', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+}
+
+// ── MTQ ───────────────────────────────────────────────────────────────────────
+
+export async function submitMtq(data: MTQRequest): Promise<MTQResult> {
+    return request<MTQResult>('/mtq', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
 }
 
 // ── Admin ─────────────────────────────────────────────────────────────────────

@@ -34,7 +34,9 @@
         "participantIdPlaceholder": "e.g. P001",
         "password": "Password",
         "signingIn": "Signing in…",
-        "signIn": "Sign In"
+        "signIn": "Sign In",
+        "or": "or",
+        "guestSignIn": "Continue as Guest (no password)"
     },
     "admin": {
         "title": "Admin Panel",
@@ -82,7 +84,9 @@
         "condition": "Condition:",
         "noBadge": "⚪ No Badge",
         "badge": "🔵 With Badge",
-        "backToAdminHome": "← Back to Admin Home"
+        "backToAdminHome": "← Back to Admin Home",
+        "guestTitle": "Guest Session",
+        "guestSubtitle": "You can try the task below as many times as you like."
     },
     "taskDescriptions": {
         "task_tutorial": "Design a simple personal web page. Adjust two parameters (image count and animation level) to maximize page load speed and user experience rating. Use this task to practice the workflow.",

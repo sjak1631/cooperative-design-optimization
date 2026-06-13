@@ -81,6 +81,43 @@ const SessionSetup: React.FC<Props> = ({ isAdmin, onSessionStarted, onGoAdmin, o
         const fixedTasks = allTasks.filter((t) => t.is_fixed);
         const hasAny = noBadgeTask || badgeTask || fixedTasks.length > 0;
 
+        // ── Guest view: SNS + badge, no selection required ──
+        if (me?.is_guest && badgeTask) {
+            return (
+                <div className="ss-root">
+                    <div className="ss-card">
+                        <div className="ss-logo">{t('app.logo')}</div>
+                        <h1 className="ss-title">{t('sessionSetup.guestTitle')}</h1>
+                        <p className="ss-sub">{t('sessionSetup.guestSubtitle')}</p>
+                        {error && <p className="ss-error">{error}</p>}
+                        <div className="ss-tasks">
+                            <div className="ss-task-card ss-task-card--badge">
+                                <div className="ss-condition-tag ss-condition-tag--badge">{t('sessionSetup.withBadge')}</div>
+                                <div className="ss-task-name">{badgeTask.name}</div>
+                                <div className="ss-task-desc">{t('taskDescriptions.' + badgeTask.id)}</div>
+                                <button
+                                    className="ss-start-btn ss-start-btn--badge"
+                                    onClick={() => handleStart(badgeTask.id, 'badge')}
+                                    disabled={starting !== null}
+                                >
+                                    {starting === 'badge' ? t('sessionSetup.starting') : t('sessionSetup.start')}
+                                </button>
+                            </div>
+                        </div>
+                        {onSignOut && (
+                            <button
+                                className="ss-back-btn"
+                                onClick={onSignOut}
+                                style={{ background: '#dc2626', marginTop: 8, color: '#ffffff' }}
+                            >
+                                {t('app.signOut')}
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="ss-root">
                 <div className="ss-card">

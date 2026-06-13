@@ -34,7 +34,9 @@
         "participantIdPlaceholder": "例：P001",
         "password": "パスワード",
         "signingIn": "サインイン中…",
-        "signIn": "サインイン"
+        "signIn": "サインイン",
+        "or": "または",
+        "guestSignIn": "ゲストとして参加する（パスワード不要）"
     },
     "admin": {
         "title": "管理パネル",
@@ -82,7 +84,9 @@
         "condition": "条件：",
         "noBadge": "⚪ バッジなし",
         "badge": "🔵 バッジ付き",
-        "backToAdminHome": "← 管理者ホームに戻る"
+        "backToAdminHome": "← 管理者ホームに戻る",
+        "guestTitle": "ゲストセッション",
+        "guestSubtitle": "以下のタスクをいつでも何度でも試すことができます。"
     },
     "taskDescriptions": {
         "task_tutorial": "シンプルな個人ウェブページをデザインします。2つのパラメータ（画像枚数・アニメーションレベル）を調整して、ページ読み込み速度とユーザー体験評価を最大化することが目標です。このタスクで操作方法を練習できます。",
