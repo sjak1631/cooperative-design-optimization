@@ -19,6 +19,7 @@ dependencies = [
     "torch>=2.3.0",
     "pyyaml>=6.0.1",
     "aiosqlite>=0.20.0",
+    "matplotlib>=3.10.9",
 ]
 
 [build-system]
