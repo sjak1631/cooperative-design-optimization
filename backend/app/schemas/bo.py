@@ -19,7 +19,7 @@ class BOSuggestRequest(BaseModel):
 
 class BOSuggestResponse(BaseModel):
     candidates: list[CandidatePoint]
-    has_model: bool  # False if not enough data yet (returns random)
+    has_model: bool  # Always True (LLM is gated until enough formal evals)
 
 
 class LLMSelectRequest(BaseModel):

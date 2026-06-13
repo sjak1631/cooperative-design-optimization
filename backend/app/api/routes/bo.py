@@ -61,8 +61,6 @@ async def bo_suggest(
     train_Y    = bo_state.train_Y    if bo_state else []
     noise_vars = bo_state.noise_vars if bo_state else []
 
-    has_model = len(train_X) >= 3
-
     raw_candidates = suggest_batch(
         task=task,
         train_X_raw=train_X,
@@ -91,7 +89,7 @@ async def bo_suggest(
         for i, c in enumerate(raw_candidates)
     ]
 
-    return BOSuggestResponse(candidates=candidates, has_model=has_model)
+    return BOSuggestResponse(candidates=candidates, has_model=True)
 
 
 @router.post("/select", response_model=LLMSelectResponse)

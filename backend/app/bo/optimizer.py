@@ -27,9 +27,6 @@ settings = get_settings()
 # Fixed reference point slightly below 0 on [0,1] scale
 REF_POINT = torch.tensor([-0.1, -0.1], dtype=torch.double)
 
-# Minimum observations before fitting the GP
-MIN_OBS_FOR_GP = 3
-
 
 def _build_bounds(task: TaskConfig) -> Tensor:
     """Returns [2, d] bounds tensor."""
@@ -50,13 +47,9 @@ def suggest_batch(
     Returns `batch_size` candidate dicts, each containing:
         parameters, mean_speed, variance_speed,
         mean_accuracy, variance_accuracy, acquisition_value
-    Falls back to quasi-random (Sobol) when < MIN_OBS_FOR_GP observations.
     """
     bounds = _build_bounds(task)
     d = bounds.shape[1]
-
-    if len(train_X_raw) < MIN_OBS_FOR_GP:
-        return _sobol_candidates(task, bounds, batch_size)
 
     X = torch.tensor(train_X_raw, dtype=torch.double)          # [n, d]
     Y = torch.tensor(train_Y_raw, dtype=torch.double)          # [n, 2]
@@ -134,30 +127,6 @@ def suggest_batch(
         })
 
     return results
-
-
-def _sobol_candidates(
-    task: TaskConfig,
-    bounds: Tensor,
-    batch_size: int,
-) -> list[dict]:
-    """Quasi-random fallback when not enough data for GP."""
-    sobol = torch.quasirandom.SobolEngine(dimension=bounds.shape[1], scramble=True)
-    X_unit = sobol.draw(batch_size).to(dtype=torch.double)
-    X_raw  = unnormalize(X_unit, bounds)
-    param_keys = task.param_keys()
-
-    return [
-        {
-            "parameters":        {k: float(X_raw[i, j]) for j, k in enumerate(param_keys)},
-            "mean_speed":        float("nan"),
-            "variance_speed":    float("nan"),
-            "mean_accuracy":     float("nan"),
-            "variance_accuracy": float("nan"),
-            "acquisition_value": float("nan"),
-        }
-        for i in range(batch_size)
-    ]
 
 
 def compute_pareto_front(train_Y_raw: list[list[float]]) -> list[int]:
